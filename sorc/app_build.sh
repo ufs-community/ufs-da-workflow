@@ -18,7 +18,7 @@ OPTIONS
       (e.g. intel | gnu | cray | gccgfortran)
   -a, --app=APPLICATION
       weather model application to build; for example, S2SWA for GFS
-      (e.g. S2SWA | S2SWAL | NG-GODAS | LND )
+      (e.g. S2SWA | S2SWAL | NG-GODAS | ATM )
   --ccpp="CCPP_SUITE1,CCPP_SUITE2..."
       CCPP suites (CCPP_SUITES) to include in build; delimited with ','
   --remove

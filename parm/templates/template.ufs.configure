@@ -13,18 +13,34 @@ EARTH_component_list: MED ATM OCN ICE WAV
 EARTH_component_list: MED ATM CHM OCN ICE WAV LND
 {%- elif APP == "NG-GODAS" %}
 EARTH_component_list: MED ATM OCN ICE
+{%- elif APP == "ATM" %}
+EARTH_component_list: ATM
 {%- endif %}
 EARTH_attributes::
   Verbosity = 0
 ::
 
+{%- if APP == "ATM" %}
+# ATM #
+ATM_model:                      {{ atm_model }}
+ATM_petlist_bounds:             {{ atm_petlist_bounds_n1 }} {{ atm_petlist_bounds_n2 }}
+ATM_omp_num_threads:            1
+ATM_attributes::
+  Verbosity = 0
+  Diagnostic = 0
+::
+# Run Sequence #
+runSeq::
+  ATM
+::
+{%- else %}
 # MED #
 MED_model:                      cmeps
 MED_petlist_bounds:             {{ med_petlist_bounds_n1 }} {{ med_petlist_bounds_n2 }}
 MED_omp_num_threads:            1
 ::
 
-{%- if atm_model %}
+  {%- if atm_model %}
 # ATM #
 ATM_model:                      {{ atm_model }}
 ATM_petlist_bounds:             {{ atm_petlist_bounds_n1 }} {{ atm_petlist_bounds_n2 }}
@@ -45,9 +61,9 @@ ATM_attributes::
   write_restart_at_endofrun = .true.
   {%- endif %}
 ::
-{%- endif %}
+  {%- endif %}
 
-{%- if chm_model %}
+  {%- if chm_model %}
 # CHM #
 CHM_model:                      {{ chm_model }}
 CHM_petlist_bounds:             {{ chm_petlist_bounds_n1 }} {{ chm_petlist_bounds_n2 }}
@@ -55,9 +71,9 @@ CHM_omp_num_threads:            1
 CHM_attributes::
   Verbosity = 0
 ::
-{%- endif %}
+  {%- endif %}
 
-{%- if ocn_model %}
+  {%- if ocn_model %}
 # OCN #
 OCN_model:                      {{ ocn_model }}
 OCN_petlist_bounds:             {{ ocn_petlist_bounds_n1 }} {{ ocn_petlist_bounds_n2 }}
@@ -74,9 +90,9 @@ OCN_attributes::
   mom6_output_fh = {{ OUTPUT_FH_MOM6 }}
   mom6_restart_dir = ./RESTART/
 ::
-{%- endif %}
+  {%- endif %}
 
-{%- if ice_model %}
+  {%- if ice_model %}
 # ICE #
 ICE_model:                      {{ ice_model }}
 ICE_petlist_bounds:             {{ ice_petlist_bounds_n1 }} {{ ice_petlist_bounds_n2 }}
@@ -92,9 +108,9 @@ ICE_attributes::
   stop_option = nhours
   stop_ymd = -999
 ::
-{%- endif %}
+  {%- endif %}
 
-{%- if wav_model %}
+  {%- if wav_model %}
 # WAV #
 WAV_model:                      {{ wav_model }}
 WAV_petlist_bounds:             {{ wav_petlist_bounds_n1 }} {{ wav_petlist_bounds_n2 }}
@@ -113,9 +129,9 @@ WAV_attributes::
   pio_rearranger = box
   pio_root = -99
 ::
-{%- endif %}
+  {%- endif %}
 
-{%- if lnd_model %}
+  {%- if lnd_model %}
 # LND #
 LND_model:                      {{ lnd_model }}
 LND_petlist_bounds:             {{ lnd_petlist_bounds_n1 }} {{ lnd_petlist_bounds_n2 }}
@@ -152,12 +168,12 @@ LND_attributes::
   calc_snet = .false.
   initial_albedo = 0.2
 ::
-{%- endif %}
+  {%- endif %}
 
 # CMEPS run sequence
 runSeq::
 @{{ DT_RUNSEQ }}
-{%- if APP == "S2SWA" %}
+  {%- if APP == "S2SWA" %}
    MED med_phases_prep_wav_avg
    MED med_phases_prep_ocn_avg
    MED -> WAV :remapMethod=redist
@@ -184,7 +200,7 @@ runSeq::
    MED med_phases_post_ocn
    MED med_phases_post_wav
    MED med_phases_restart_write
-{%- elif APP == "S2SWAL" %}
+  {%- elif APP == "S2SWAL" %}
    MED med_phases_prep_ocn_avg
    MED -> OCN :remapMethod=redist
    OCN
@@ -220,7 +236,7 @@ runSeq::
    OCN -> MED :remapMethod=redist
    MED med_phases_post_ocn
    MED med_phases_restart_write
-{%- elif APP == "NG-GODAS" %}
+  {%- elif APP == "NG-GODAS" %}
    MED med_phases_prep_ocn_avg
    MED -> OCN :remapMethod=redist
    OCN
@@ -240,7 +256,7 @@ runSeq::
    OCN -> MED :remapMethod=redist
    MED med_phases_post_ocn
    MED med_phases_restart_write
-{%- endif %}
+  {%- endif %}
 @
 ::
 
@@ -248,21 +264,21 @@ runSeq::
 DRIVER_attributes::
 ::
 MED_attributes::
-{%- if atm_model %}
+  {%- if atm_model %}
       ATM_model = {{ atm_model }}
-{%- endif %}
-{%- if ice_model %}
+  {%- endif %}
+  {%- if ice_model %}
       ICE_model = {{ ice_model }}
-{%- endif %}
-{%- if ocn_model %}
+  {%- endif %}
+  {%- if ocn_model %}
       OCN_model = {{ ocn_model }}
-{%- endif %}
-{%- if wav_model %}
+  {%- endif %}
+  {%- if wav_model %}
       WAV_model = {{ wav_model }}
-{%- endif %}
-{%- if lnd_model %}
+  {%- endif %}
+  {%- if lnd_model %}
       LND_model = {{ lnd_model }}
-{%- endif %}
+  {%- endif %}
       coupling_mode = {{ cmeps_coupling_mode }}
       ocean_albedo_limit = 0.06
       mapuv_with_cart3d = {{ cmeps_mapuv_with_cart3d | lower }}
@@ -277,11 +293,11 @@ ALLCOMP_attributes::
       ScalarFieldCount = 3
       ScalarFieldIdxGridNX = 1
       ScalarFieldIdxGridNY = 2
-{%- if APP == "S2SWA" or APP == "S2SWAL" %}
+  {%- if APP == "S2SWA" or APP == "S2SWAL" %}
       ScalarFieldIdxGridNTile = 3
-{%- elif APP == "NG-GODAS" %}
+  {%- elif APP == "NG-GODAS" %}
       ScalarFieldIdxNextSwCday = 3
-{%- endif %}
+  {%- endif %}
       ScalarFieldName = cpl_scalars
       start_type = {{ allcomp_start_type }}
       restart_dir = ./RESTART/
@@ -300,11 +316,12 @@ ALLCOMP_attributes::
       orb_mode = fixed_year
       orb_mvelp = 1.e36
       orb_obliq = 1.e36
-{%- if APP == "NG-GODAS" %}
+  {%- if APP == "NG-GODAS" %}
       coldair_outbreak_mod = .false.
       flds_wiso = .false.
       flux_convergence = 0.0
       flux_max_iteration = 2
       ocn_surface_flux_scheme = 0
-{%- endif %}
+  {%- endif %}
 ::
+{%- endif %}
