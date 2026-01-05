@@ -25,7 +25,7 @@ write_nsflip:            .true.
 num_files:               2
 fv3atm_output_dir:       ./
 filename_base:           'atm' 'sfc'
-output_grid:             'cubed_sphere_grid'
+output_grid:             '{{ output_grid }}'
 output_file:             'netcdf'
 zstandard_level:         {{ zstandard_level }}
 ideflate:                0
