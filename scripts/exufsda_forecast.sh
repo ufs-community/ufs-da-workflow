@@ -24,6 +24,7 @@ if [[ ${machines_srun[@]} =~ "${MACHINE}" ]]; then
 else
   run_cmd=`which mpiexec`
 fi
+app_lower=$(echo ${APP} | tr '[A-Z]' '[a-z]')
 
 NTIME=$($NDATE ${DATE_CYCLE_FREQ_HR} $PDY$cyc)
 PTIME=$($NDATE -${DATE_CYCLE_FREQ_HR} $PDY$cyc)
@@ -100,7 +101,11 @@ if [ "${atm_model}" = "fv3" ]; then
     ln -nsf "${FIXufsda}/DATA_fix/FV3/Tiled/C${RES}/C${RES}_oro_data_ss.tile${itile}.nc" oro_data_ss.tile${itile}.nc
   done
   ln -nsf "${FIXufsda}/DATA_fix/FV3/Tiled/C${RES}/C${RES}_mosaic.nc" .
-  ln -nsf "${FIXufsda}/DATA_fix/FV3/Tiled/C${RES}/C${RES}_grid_spec.nc" grid_spec.nc
+  if [ "${APP}" = "ATM" ]; then
+    ln -nsf "${FIXufsda}/DATA_fix/FV3/Tiled/C${RES}/C${RES}_grid_spec.nc_${app_lower}" grid_spec.nc
+  else
+    ln -nsf "${FIXufsda}/DATA_fix/FV3/Tiled/C${RES}/C${RES}_grid_spec.nc" grid_spec.nc
+  fi
   
   ## IC (initial condition) files for cold start
   if [ "${COLDSTART}" = "YES" ] && [ "${PDY}${cyc}" = "${DATE_FIRST_CYCLE:0:10}" ]; then
@@ -540,7 +545,9 @@ fi
 # fd_ufs.yaml
 cp -p "${PARMufsda}/templates/template.fd_ufs.yaml" fd_ufs.yaml
 # data_table
-cp -p "${PARMufsda}/templates/template.data_table" data_table
+if [ "${APP}" != "ATM"]; then
+  cp -p "${PARMufsda}/templates/template.data_table" data_table
+fi
 
 ########################################################
 # Copy input namelist files created by PREP_DATA task
@@ -557,7 +564,6 @@ cp -p "${COMINOUT}/diag_table_${PDY}${cyc}" diag_table
 ##########################
 # Run ufs-weather-model
 ##########################
-app_lower=$(echo ${APP} | tr '[A-Z]' '[a-z]')
 export pgm="ufs_model_${app_lower}"
 . prep_step
 ${run_cmd} --label -n ${nprocs_forecast} ${EXECufsda}/$pgm >>$pgmout 2>errfile

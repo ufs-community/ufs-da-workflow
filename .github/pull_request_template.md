@@ -16,11 +16,11 @@ EXAMPLE: Closes ufs-community/ufs-da-workflow/issues/<issue_number>
 
 ## Test Conducted on Following Platforms (Machines):
 - RDHPCS
-    - [ ] Gaea-c6
-    - [ ] Hera
+    - [ ] Ursa
     - [ ] Hercules
     - [ ] Orion
-    - [ ] Ursa
+    - [ ] Gaea-c6
+    - [ ] Derecho
 - PW-Clouds
     - [ ] AWS
     - [ ] AZURE

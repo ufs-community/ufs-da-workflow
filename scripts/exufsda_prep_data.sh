@@ -58,7 +58,7 @@ if [ "${COLDSTART}" = "YES" ] && [ "${PDY}${cyc}" = "${DATE_FIRST_CYCLE:0:10}" ]
   mountain=".false."
   na_init="1"
   nggps_ic=".true."
-  nstf_name="2,0,0,0,0"
+  nstf_name="2,1,0,0,0"
   warm_start=".false."
 
   # ufs.configure
@@ -90,26 +90,50 @@ fi
 ## Application dependent variables
 datm_data_type_upper=$(echo ${DATM_DATA_TYPE} | tr '[a-z]' '[A-Z]')
 if [ "${APP}" = "S2SWA" ]; then
-  # ufs.configure
+  ### ufs.configure
   allcomp_case_name="ufs.cpld"
   cmeps_coupling_mode="ufs.frac"
   cmeps_mapuv_with_cart3d="true"
-  use_saved_routehandles=".true."
   wav_mesh_wav="mesh.global_270k.nc"
+  ### model_configure
+  use_saved_routehandles=".true."
+  zstandard_level="0"
 elif [ "${APP}" = "S2SWAL" ]; then
-  # ufs.configure
+  ### ufs.configure
   allcomp_case_name="ufs.cpld"
   cmeps_coupling_mode="ufs.frac"
   cmeps_mapuv_with_cart3d="true"
-  use_saved_routehandles=".false."
   wav_mesh_wav="mesh.mx100.nc"
+  ### model_configure
+  use_saved_routehandles=".false."
+  zstandard_level="0"
 elif [ "${APP}" = "NG-GODAS" ]; then
-  # ufs.configure
+  ### ufs.configure
   allcomp_case_name="DATM_${datm_data_type_upper}"
   cmeps_coupling_mode="ufs.nfrac.aoflux"
   cmeps_mapuv_with_cart3d="false"
-  use_saved_routehandles="N/A"
   wav_mesh_wav="mesh.global_270k.nc"
+  ### model_configure
+  use_saved_routehandles="N/A"
+  zstandard_level="0"
+elif [ "${APP}" = "ATM" ]; then
+  ### ufs.configure
+  allcomp_case_name="N/A"
+  cmeps_coupling_mode="N/A"
+  cmeps_mapuv_with_cart3d="N/A"
+  wav_mesh_wav="N/A"
+  ### model_configure
+  use_saved_routehandles=".false."
+  zstandard_level="5"
+else
+  ### ufs.configure
+  allcomp_case_name="N/A"
+  cmeps_coupling_mode="N/A"
+  cmeps_mapuv_with_cart3d="N/A"
+  wav_mesh_wav="N/A"
+  ### model_configure
+  use_saved_routehandles=".false."
+  zstandard_level="0"
 fi
 
 ########################################
@@ -230,6 +254,7 @@ settings="\
   'OUTPUT_FH': ${OUTPUT_FH}
   'RESTART_INTERVAL': ${RESTART_INTERVAL}
   'use_saved_routehandles': ${use_saved_routehandles}
+  'zstandard_level': ${zstandard_level}
   'WRITE_GROUPS': ${WRITE_GROUPS}
   'WRITE_TASKS_PER_GROUP': ${WRITE_TASKS_PER_GROUP}
 " # End of settings variable
@@ -275,12 +300,13 @@ fi
 ################################
 ## MOM6 input file: MOM_input
 ################################
-if [ "${APP}" = "S2SWA" ] || [ "${APP}" = "S2SWAL" ]; then
-  mom6_use_waves="True"
-else
-  mom6_use_waves="False"
-fi
-settings="\
+if [ "${ocn_model}" = "mom6" ]; then
+  if [ "${APP}" = "S2SWA" ] || [ "${APP}" = "S2SWAL" ]; then
+    mom6_use_waves="True"
+  else
+    mom6_use_waves="False"
+  fi
+  settings="\
 'DT_MOM6': ${DT_MOM6}
 'MOM6_DT_THERM': ${MOM6_DT_THERM}
 'MOM6_NIGLOBAL': ${MOM6_NIGLOBAL}
@@ -288,15 +314,17 @@ settings="\
 'MOM6_NK': ${MOM6_NK}
 'mom6_use_waves': ${mom6_use_waves}
 " # End of settings variable
-fp_template="${PARMufsda}/templates/template.MOM_input"
-fn_namelist="MOM_input"
-${USHufsda}/fill_jinja_template.py -u "${settings}" -t "${fp_template}" -o "${fn_namelist}"
-rsync -avh ${fn_namelist} "${COMINOUT}/${fn_namelist}_${PDY}${cyc}"
+  fp_template="${PARMufsda}/templates/template.MOM_input"
+  fn_namelist="MOM_input"
+  ${USHufsda}/fill_jinja_template.py -u "${settings}" -t "${fp_template}" -o "${fn_namelist}"
+  rsync -avh ${fn_namelist} "${COMINOUT}/${fn_namelist}_${PDY}${cyc}"
+fi
 
 #############################
 ## CICE input file: ice_in
 #############################
-settings="\
+if [ "${ice_model}" = "cice6" ]; then
+  settings="\
 'yyyymmdd': !!str ${PDY}
 'yyyy': !!str ${YYYY}
 'yyyy_last': !!str ${nYYYY}
@@ -312,11 +340,11 @@ settings="\
 'ice_use_restart_time': ${ice_use_restart_time}
 'OUTPUT_FH_CICE': ${OUTPUT_FH_CICE}
 " # End of settings variable
-fp_template="${PARMufsda}/templates/template.ice_in"
-fn_namelist="ice_in"
-${USHufsda}/fill_jinja_template.py -u "${settings}" -t "${fp_template}" -o "${fn_namelist}"
-rsync -avh ${fn_namelist} "${COMINOUT}/${fn_namelist}_${PDY}${cyc}"
-
+  fp_template="${PARMufsda}/templates/template.ice_in"
+  fn_namelist="ice_in"
+  ${USHufsda}/fill_jinja_template.py -u "${settings}" -t "${fp_template}" -o "${fn_namelist}"
+  rsync -avh ${fn_namelist} "${COMINOUT}/${fn_namelist}_${PDY}${cyc}"
+fi
 echo "=========== Input Namelist Files COMPLETE !!! ================="
 
 

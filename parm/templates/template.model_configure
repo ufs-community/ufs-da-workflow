@@ -9,7 +9,7 @@ fhrot:                   {{ FHROT }}
 
 dt_atmos:                {{ DT_ATMOS }}
 restart_fh:               
-{%- if APP == "S2SWA" or APP == "S2SWAL" %}
+{%- if APP == "S2SWA" or APP == "S2SWAL" or APP == "ATM" %}
 restart_interval:        {{ RESTART_INTERVAL }}
 
 use_saved_routehandles:  {{ use_saved_routehandles }}
@@ -27,7 +27,7 @@ fv3atm_output_dir:       ./
 filename_base:           'atm' 'sfc'
 output_grid:             'cubed_sphere_grid'
 output_file:             'netcdf'
-zstandard_level:         0
+zstandard_level:         {{ zstandard_level }}
 ideflate:                0
 quantize_mode:           'quantize_bitround'
 quantize_nsd:            0
