@@ -28,6 +28,7 @@ parm:
   OUTPUT_FH_LND: None
   OUTPUT_FH_MOM6: None
   OUTPUT_FH_WW3: None
+  OUTPUT_GRID: cubed_sphere_grid
   RES: 96
   RESTART_INTERVAL: "12 -1"
   WRITE_GROUPS: 1

@@ -96,9 +96,7 @@ if [ "${APP}" = "S2SWA" ]; then
   cmeps_mapuv_with_cart3d="true"
   wav_mesh_wav="mesh.global_270k.nc"
   ### model_configure
-  output_grid="cubed_sphere_grid"
   use_saved_routehandles=".true."
-  zstandard_level="0"
 elif [ "${APP}" = "S2SWAL" ]; then
   ### ufs.configure
   allcomp_case_name="ufs.cpld"
@@ -106,9 +104,7 @@ elif [ "${APP}" = "S2SWAL" ]; then
   cmeps_mapuv_with_cart3d="true"
   wav_mesh_wav="mesh.mx100.nc"
   ### model_configure
-  output_grid="cubed_sphere_grid"
   use_saved_routehandles=".false."
-  zstandard_level="0"
 elif [ "${APP}" = "NG-GODAS" ]; then
   ### ufs.configure
   allcomp_case_name="DATM_${datm_data_type_upper}"
@@ -116,9 +112,7 @@ elif [ "${APP}" = "NG-GODAS" ]; then
   cmeps_mapuv_with_cart3d="false"
   wav_mesh_wav="mesh.global_270k.nc"
   ### model_configure
-  output_grid="cubed_sphere_grid"
   use_saved_routehandles="N/A"
-  zstandard_level="0"
 elif [ "${APP}" = "ATM" ]; then
   ### ufs.configure
   allcomp_case_name="N/A"
@@ -126,9 +120,7 @@ elif [ "${APP}" = "ATM" ]; then
   cmeps_mapuv_with_cart3d="N/A"
   wav_mesh_wav="N/A"
   ### model_configure
-  output_grid="gaussian_grid"
   use_saved_routehandles=".false."
-  zstandard_level="5"
 else
   ### ufs.configure
   allcomp_case_name="N/A"
@@ -136,8 +128,15 @@ else
   cmeps_mapuv_with_cart3d="N/A"
   wav_mesh_wav="N/A"
   ### model_configure
-  output_grid="cubed_sphere_grid"
   use_saved_routehandles=".false."
+fi
+
+## Grid-dependent parameters
+if [ "${OUTPUT_GRID}" = "cubed_sphere_grid" ]; then
+  zstandard_level="0"
+elif [ "${OUTPUT_GRID}" = "gaussian_grid" ]; then
+  zstandard_level="5"
+else
   zstandard_level="0"
 fi
 
@@ -257,7 +256,7 @@ settings="\
   'FCST_HRS': ${FCST_HRS}
   'FHROT': ${FHROT}
   'OUTPUT_FH': ${OUTPUT_FH}
-  'output_grid': ${output_grid}
+  'OUTPUT_GRID': ${OUTPUT_GRID}
   'RESTART_INTERVAL': ${RESTART_INTERVAL}
   'use_saved_routehandles': ${use_saved_routehandles}
   'zstandard_level': ${zstandard_level}
