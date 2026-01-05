@@ -195,7 +195,7 @@ workflow:
               attrs:
                 task: analysis
   {%- else %}
-    {%- if APP == "S2SWA" or APP == "S2SWAL" %}
+    {%- if APP == "S2SWA" or APP == "S2SWAL" or APP == "ATM" %}
             datadep_sfc1:
               attrs:
                 age: 5

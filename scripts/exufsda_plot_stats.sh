@@ -64,6 +64,11 @@ fi
 if [ "${APP}" = "NG-GODAS" ]; then
   do_plot_fcst_out_fv3="NO"
   do_plot_fcst_restart_fv3="NO"
+elif [ "${APP}" = "ATM" ]; then
+  do_plot_fcst_out_mom6="NO"
+  do_plot_fcst_out_cice="NO"
+  do_plot_fcst_restart_mom6="NO"
+  do_plot_fcst_restart_cice="NO"
 fi
 
 DO_PLOT_OBS="${DO_PLOT_OBS:-${do_plot_obs}}"

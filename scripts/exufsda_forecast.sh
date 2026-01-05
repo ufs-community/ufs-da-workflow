@@ -515,26 +515,28 @@ fi
 ################
 # CMEPS files
 ################
-echo "==================== CMEPS Files ===================================="
-if [ "${COLDSTART}" = "NO" ] || [ "${PDY}${cyc}" != "${DATE_FIRST_CYCLE:0:10}" ]; then
-  if [ "${COLDSTART}" = "NO" ] && [ "${PDY}${cyc}" = "${DATE_FIRST_CYCLE:0:10}" ]; then
-    data_dir="${WARMSTART_DIR}"
-  else
-    data_dir="${COMINOUTcm1}/RESTART"
-  fi
-  # Restart from RESTART and pointer files
-  if [ "${atm_model}" = "fv3" ]; then
-    r_fn_prefix="ufs.cpld"
-  elif [ "${atm_model}" = "datm" ]; then
-    r_fn_prefix="DATM_${datm_data_type_upper}"
-  fi
-  r_fn="${r_fn_prefix}.cpl.r.${YYYY}-${MM}-${DD}-${HHsec_5d}.nc"
-  r_fp="${data_dir}/${r_fn}"
-  if [ -e "${r_fp}" ]; then
-    ln -nsf "${r_fp}" .
-    ls -1 "${r_fn}">rpointer.cpl
-  else
-    err_exit "Symlink failed: ${r_fp} file does not exist."
+if [ "${APP}" != "ATM" ]; then
+  echo "==================== CMEPS Files ===================================="
+  if [ "${COLDSTART}" = "NO" ] || [ "${PDY}${cyc}" != "${DATE_FIRST_CYCLE:0:10}" ]; then
+    if [ "${COLDSTART}" = "NO" ] && [ "${PDY}${cyc}" = "${DATE_FIRST_CYCLE:0:10}" ]; then
+      data_dir="${WARMSTART_DIR}"
+    else
+      data_dir="${COMINOUTcm1}/RESTART"
+    fi
+    # Restart from RESTART and pointer files
+    if [ "${atm_model}" = "fv3" ]; then
+      r_fn_prefix="ufs.cpld"
+    elif [ "${atm_model}" = "datm" ]; then
+      r_fn_prefix="DATM_${datm_data_type_upper}"
+    fi
+    r_fn="${r_fn_prefix}.cpl.r.${YYYY}-${MM}-${DD}-${HHsec_5d}.nc"
+    r_fp="${data_dir}/${r_fn}"
+    if [ -e "${r_fp}" ]; then
+      ln -nsf "${r_fp}" .
+      ls -1 "${r_fn}">rpointer.cpl
+    else
+      err_exit "Symlink failed: ${r_fp} file does not exist."
+    fi
   fi
 fi
 
