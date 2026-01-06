@@ -649,7 +649,7 @@ def create_jobcard_envvar(home_dir,parm_dir,config_parm,config_parm_str):
         nprocs_per_node_task = f'''nprocs_per_node_{itask}'''
         walltime_task = f'''walltime_{itask}'''
         if workflow_manager == "ecflow":
-            output_fn = f'''{itask}_%ECF_DATE%%CYC%.log'''
+            output_fn = f'''{itask}_%ECF_DATE%%CYC%_%ECF_TRYNO%.log'''
         else:
             output_fn = f'''{itask}_{date_first_cycle}.log'''
         output_name = os.path.join(log_dir_path,output_fn)
