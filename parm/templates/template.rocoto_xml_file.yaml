@@ -26,10 +26,12 @@ workflow:
     NPROCS_PLOT_STATS: "{{ NPROCS_PLOT_STATS }}"
     NPROCS_PREP_DATA: "{{ NPROCS_PREP_DATA }}"
     nnodes_analysis: "{{ nnodes_analysis }}"
+    nnodes_fcst_ic: "{{ nnodes_fcst_ic }}"
     nnodes_forecast: "{{ nnodes_forecast }}"
     nnodes_prep_data: "{{ nnodes_prep_data }}"
     nprocs_forecast: "{{ nprocs_forecast }}"
     nprocs_per_node_analysis: "{{ nprocs_per_node_analysis }}"
+    nprocs_per_node_fcst_ic: "{{ nprocs_per_node_fcst_ic }}"
     nprocs_per_node_forecast: "{{ nprocs_per_node_forecast }}"
     nprocs_per_node_prep_data: "{{ nprocs_per_node_prep_data }}"
     PARTITION_QUEUE: "{{ PARTITION_QUEUE }}"
@@ -139,7 +141,7 @@ workflow:
       account: "&ACCOUNT;"
       command: '&exp_case_path;/job_cards/jufsda_fcst_ic'
       jobname: fcst_ic
-      nodes: "1:ppn=&NPROCS_FCST_IC;"
+      nodes: "&nnodes_fcst_ic;:ppn=&nprocs_per_node_fcst_ic;"
       walltime: {{ WALLTIME_FCST_IC }}
   {%- if NATIVE is not none %}
       native: "&NATIVE;"
