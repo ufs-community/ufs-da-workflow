@@ -156,12 +156,14 @@ if [ "${CUSTOM_UFS_INPUT_NML_FLAG}" = "YES" ]; then
 else
   if [ "${APP}" = "NG-GODAS" ]; then
     fn_template="template.${APP}.input.nml"
-  else
-    if [ "${APP}" = "ATM" ] && [ "${DO_FREE_FORECAST}" = "all" ]; then
-      fn_template="template.${APP}.input.nml.${CCPP_SUITE}_freefcst"
+  elif [ "${APP}" = "ATM" ]; then
+    if [ "${JEDI_TYPE_FV3}" = "YES" ]; then
+      fn_template="template.${APP}.input.nml.${CCPP_SUITE}_fv3jedi"
     else
       fn_template="template.${APP}.input.nml.${CCPP_SUITE}"
     fi
+  else
+    fn_template="template.${APP}.input.nml.${CCPP_SUITE}"
   fi
   ### To avoid error from "set -u" when input variable is none like ('res_latlon_dynamics:'),
   ### set the safe parameter expansion like ${res_latlon_dynamics-}. This is because

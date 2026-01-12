@@ -7,12 +7,12 @@
 
 &diag_manager_nml
   prepend_date = .false.
-  max_output_fields = 300
+  max_output_fields = 310
 /
 
 &fms_nml
   clock_grain = 'ROUTINE'
-  domains_stack_size = 16000000
+  domains_stack_size = 3000000
   print_memory_usage = .false.
 /
 
@@ -35,11 +35,11 @@
   range_warn = .true.
   reset_eta = .false.
   n_sponge = 42
-  nudge_qv = .false.
+  nudge_qv = .true.
   nudge_dz = .false.
   tau = 8.0
   fast_tau_w_sec = 0.2
-  rf_cutoff = 300.0
+  rf_cutoff = 100.0
   d2_bg_k1 = 0.20
   d2_bg_k2 = 0.04
   kord_tm = -9
@@ -49,11 +49,11 @@
   hydrostatic = .false.
   phys_hydrostatic = .false.
   use_hydro_pressure = .false.
-  pass_full_omega_to_physics_in_non_hydrostatic_mode = .true.
+  pass_full_omega_to_physics_in_non_hydrostatic_mode = .false.
   beta = 0.
   a_imp = 1.
   p_fac = 0.1
-  k_split = 1
+  k_split = 2
   n_split = 4
   nwat = 6
   na_init = {{ na_init }}
@@ -80,7 +80,7 @@
   hord_tm = 5
   hord_dp = -5
   hord_tr = 8
-  adjust_dry_mass = .true.
+  adjust_dry_mass = .false.
   dry_mass = 98320.0
   consv_te = 1.
   do_sat_adj = .false.
@@ -112,7 +112,7 @@
   ldiag3d      = .false.
   qdiag3d      = .false.
   print_diff_pgr = .false.
-  fhcyc        = 1
+  fhcyc        = 24
   use_ufo      = .true.
   pre_rad      = .false.
   imp_physics  = 8
@@ -120,9 +120,9 @@
   ltaerosol    = .false.
   mraerosol    = .false.
   lthailaware  = .false.
-  lradar       = .true.
+  lradar       = .false.
   ttendlim     = -999
-  dt_inner     = 300
+  dt_inner     = 720
   sedi_semi    = .true.
   decfl        = 10
   oz_phys      = .false.
@@ -145,8 +145,8 @@
   do_ugwp_v0_orog_only = .false.
   do_ugwp_v0_nst_only  = .false.
   do_gsl_drag_ls_bl    = .true.
-  do_gsl_drag_ss       = .false.
-  do_gwd_opt_psl       = .true.
+  do_gsl_drag_ss       = .true.
+  do_gwd_opt_psl       = .false.
   psl_gwd_dx_factor    = 6.0
   do_gsl_drag_tofd     = .true.
   do_ugwp_v1_orog_only = .false.
@@ -182,7 +182,7 @@
   xr_cnvcld    = .false.
   imfshalcnv   = 2
   imfdeepcnv   = 2
-  progsigma    = .true.
+  progsigma    = .false.
   betascu      = 8.0
   betamcu      = 1.0
   betadcu      = 2.0
@@ -227,7 +227,7 @@
   rrtmgp_nGptsLW     = 128
   rrtmgp_nBandsLW    = 16
   rrtmgp_nBandsSW    = 14
-  doGP_lwscat        = .false.
+  doGP_lwscat        = .true.
   do_sppt      = .false.
   do_shum      = .false.
   do_skeb      = .false.
@@ -252,32 +252,32 @@
   nthresh      = 18
   ca_trigger   = .true.
   nspinup      = 1
-  iseed_ca     = 189807043
+  iseed_ca     = 12345
   lndp_type   = 0
   n_var_lndp  = 0
   lcnorm  = .false.
   pert_mp = .false.
   pert_radtend = .false.
   pert_clds = .false.
-!  iaufhrs      = -1
-!  iau_delthrs  = 0
-!  iau_inc_files= ''
-!  iau_drymassfixer = .false.
-!  iau_filter_increments = .false.
+  iaufhrs      = -1
+  iau_delthrs  = 0
+  iau_inc_files= ''
+  iau_drymassfixer = .false.
+  iau_filter_increments = .false.
 /
 
 &land_iau_nml
   do_land_iau = .false.
-!  land_iau_fhrs = 3,6,9
-!  land_iau_delthrs = 6
-!  land_iau_inc_files = 'sfc_inc',''
-!  lsoil_incr = 3
-!  land_iau_filter_increments = .false.
-!  land_iau_upd_stc = .true.
-!  land_iau_upd_slc = .true.
-!  land_iau_do_stcsmc_adjustment = .true.
-!  land_iau_min_T_increment = 0.0001
-!  land_iau_min_SLC_increment = 0.000001
+  land_iau_fhrs = 3,6,9
+  land_iau_delthrs = 6
+  land_iau_inc_files = 'sfc_inc',''
+  lsoil_incr = 3
+  land_iau_filter_increments = .false.
+  land_iau_upd_stc = .true.
+  land_iau_upd_slc = .true.
+  land_iau_do_stcsmc_adjustment = .true.
+  land_iau_min_T_increment = 0.0001
+  land_iau_min_SLC_increment = 0.000001
 /
 
 &cires_ugwp_nml
@@ -388,12 +388,12 @@
   FSMCL(3) = 99999
   FSMCL(4) = 99999
   LANDICE  = .false.
-  FTSFS    = 10
+  FTSFS    = 90
   FAISL    = 99999
   FAISS    = 99999
   FSNOL    = 99999
   FSNOS    = 99999
-  FSICL    = 99999
+  FSICL    = 0
   FSICS    = 0
   FTSFL    = 99999
   FVETL    = 99999
@@ -411,44 +411,44 @@
 &nam_stochy
   new_lscale=.false.
   STOCHINI=.false.
-  skeb = 0
+  skeb = -999.
   iseed_skeb = 0
-  skeb_tau = -999.
-  skeb_lscale = -999.
-  skebnorm = 1
-  skeb_npass = 30
-  skeb_vdof = 5
+  skeb_tau = 21600,
+  skeb_lscale = 250000,
+  skebnorm = 0,
+  skeb_npass = 30,
+  skeb_vdof = 5,
   skebint = 0
   shum = -999.
-  iseed_shum = 0
-  shum_tau = -999.
-  shum_lscale = -999.
+  iseed_shum = 1,
+  shum_tau = 21600,
+  shum_lscale = 500000,
   shumint = 0
   sppt = -999.
-  iseed_sppt = 0
-  sppt_tau = -999.
-  sppt_lscale = -999.
-  sppt_logit = .true.
-  sppt_sfclimit = .true.
+  iseed_sppt = 20210325000103
+  sppt_tau = 2.16E4
+  sppt_lscale = 500.E3
+  sppt_logit = .true.,
+  sppt_sfclimit = .true.,
   use_zmtnblck = .true.
   spptint = 0
-  pbl_taper = 0,0,0,0.1,0.2,0.4,0.6
-  OCNSPPT = 0.8,0.4,0.2,0.08,0.04
-  OCNSPPT_LSCALE = 500.E3,1000.E3,2000.E3,2000.E3,2000.E3
-  OCNSPPT_TAU = 2.16E4,2.592E5,2.592E6,7.776E6,3.1536E7
-  ISEED_OCNSPPT =0
-  EPBL = 0.8,0.4,0.2,0.08,0.04
-  EPBL_LSCALE = 500.E3,1000.E3,2000.E3,2000.E3,2000.E3
-  EPBL_TAU = 2.16E4,2.592E5,2.592E6,7.776E6,3.1536E7
-  ISEED_EPBL = 0
+  pbl_taper = 0,0,0,0.125,0.25,0.5,0.75
+  OCNSPPT = -999.
+  OCNSPPT_LSCALE = 500.E3
+  OCNSPPT_TAU = 2.16E4
+  ISEED_OCNSPPT =20210325000108
+  EPBL = -999.
+  EPBL_LSCALE = 500.E3
+  EPBL_TAU = 2.16E4
+  ISEED_EPBL = 20210325000113
 /
 
 &nam_sfcperts
   lndp_type = 0
   lndp_model_type = 0
-  LNDP_TAU=21600
-  LNDP_LSCALE=500000
-  ISEED_LNDP=0
+  LNDP_TAU=21600,
+  LNDP_LSCALE=500000,
+  ISEED_LNDP=2010,
   lndp_var_list = 'XXX'
   lndp_prt_list = -999
 /
