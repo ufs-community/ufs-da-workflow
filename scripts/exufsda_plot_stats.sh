@@ -29,7 +29,12 @@ elif [ "${TYPE_ANAL_FCST}" = "anal-only" ]; then
   do_plot_obs="YES"
   do_plot_stats="YES"
   do_plot_time_history="YES"
-  do_plot_fcst_restart_fv3="YES"
+  if [ "${JEDI_TYPE_SNOW}" = "YES" ] || [ "${JEDI_TYPE_SOIL_MOISTURE}" = "YES" ]; then
+    do_plot_fcst_restart_fv3="YES"
+  fi
+  if [ "${JEDI_TYPE_SOCA}" = "YES" ]; then
+    do_plot_fcst_restart_mom6="YES"
+  fi
 elif [ "${TYPE_ANAL_FCST}" = "fcst-only" ]; then
   do_plot_fcst_out_fv3="YES"
   do_plot_fcst_out_mom6="YES"
