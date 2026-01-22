@@ -1,0 +1,17 @@
+flag:
+  JEDI_TYPE_SNOW: 'YES'
+  JEDI_TYPE_SOCA: 'NO'
+  JEDI_TYPE_SOIL_MOISTURE: 'NO'
+  OBS_GHCN_SNOW: 'YES'
+  OBS_IMS_SNOW: 'NO'
+path:
+parm:
+  ACCOUNT: epic
+  DATE_CYCLE_FREQ_HR: 24
+  DATE_FIRST_CYCLE: 2021032506
+  DATE_LAST_CYCLE: 2021032606
+  envir: anal_snowDA_3dvar_ecflow
+  EXP_CASE_NAME: anal_snowDA_3dvar_ecflow
+  JEDI_ALGORITHM: 3dvar
+  TYPE_ANAL_FCST: anal-only
+  WORKFLOW_MANAGER: ecflow

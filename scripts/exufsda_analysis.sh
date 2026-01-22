@@ -5,11 +5,17 @@ set -xue
 ulimit -s unlimited; ulimit -a;
 
 # Set other dates
+next_date=$($NDATE ${DATE_CYCLE_FREQ_HR} $PDY$cyc)
+pdate=$($NDATE -${DATE_CYCLE_FREQ_HR} $PDY$cyc)
+
 YYYY=${PDY:0:4}
 MM=${PDY:4:2}
 DD=${PDY:6:2}
 HH=${cyc}
-pdate=$($NDATE -${DATE_CYCLE_FREQ_HR} $PDY$cyc)
+
+PDYpc1=${next_date:0:8}
+nHH=${next_date:8:2}
+
 YYYYp=${pdate:0:4}
 MMp=${pdate:4:2}
 DDp=${pdate:6:2}
@@ -17,7 +23,8 @@ HHp=${pdate:8:2}
 PDYmc1=${pdate:0:8}
 COMINrestart_mc1="${COMROOT}/${NET}/${model_ver}/${RUN}.${PDYmc1}/RESTART"
 
-filedate=${PDY}.${cyc}0000
+filedate="${PDY}.${cyc}0000"
+filedate_next="${PDYpc1}.${nHH}0000"
 
 # Global parameters
 orog_path="${FIXufsda}/DATA_fix/FV3/Tiled/C${RES}"
@@ -506,12 +513,14 @@ EOF
   ## Copy the final sfc_data files to COMINOUT / COMINOUTrestart
   if [ "${TYPE_ANAL_FCST}" = "anal-only" ]; then
     cominout_dir="${COMINOUTrestart}"
+    out_fdate="${filedate_next}"
   else
     cominout_dir="${COMINOUT}"
+    out_fdate="${filedate}"
   fi
   for itile in {1..6}
   do
-    cp -p "${DATA}/${filedate}.sfc_data.tile${itile}.nc" ${cominout_dir}
+    cp -p "${DATA}/${filedate}.sfc_data.tile${itile}.nc" "${cominout_dir}/${out_fdate}.sfc_data.tile${itile}.nc"
   done
   
   if [ -d diags ]; then

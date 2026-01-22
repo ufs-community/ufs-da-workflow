@@ -25,6 +25,11 @@ if [ "${TYPE_ANAL_FCST}" = "fcst-1st" ]; then
     do_plot_stats="YES"
     do_plot_time_history="YES"
   fi
+elif [ "${TYPE_ANAL_FCST}" = "anal-only" ]; then
+  do_plot_obs="YES"
+  do_plot_stats="YES"
+  do_plot_time_history="YES"
+  do_plot_fcst_restart_fv3="YES"
 elif [ "${TYPE_ANAL_FCST}" = "fcst-only" ]; then
   do_plot_fcst_out_fv3="YES"
   do_plot_fcst_out_mom6="YES"
