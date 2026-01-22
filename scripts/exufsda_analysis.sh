@@ -5,17 +5,16 @@ set -xue
 ulimit -s unlimited; ulimit -a;
 
 # Set other dates
-next_date=$($NDATE ${DATE_CYCLE_FREQ_HR} $PDY$cyc)
-pdate=$($NDATE -${DATE_CYCLE_FREQ_HR} $PDY$cyc)
-
 YYYY=${PDY:0:4}
 MM=${PDY:4:2}
 DD=${PDY:6:2}
 HH=${cyc}
 
+next_date=$($NDATE ${DATE_CYCLE_FREQ_HR} $PDY$cyc)
 PDYpc1=${next_date:0:8}
 nHH=${next_date:8:2}
 
+pdate=$($NDATE -${DATE_CYCLE_FREQ_HR} $PDY$cyc)
 YYYYp=${pdate:0:4}
 MMp=${pdate:4:2}
 DDp=${pdate:6:2}
@@ -248,7 +247,14 @@ EOF
   cp -p diag/* ${COMINOUThofx}
 
   # Copy output to COMINOUT
-  cp -p "${fn_ocn_data}${new_bkg_data_fn_suffix}" "${COMINOUT}/${filedate}.${fn_ocn_data}"
+  if [ "${TYPE_ANAL_FCST}" = "anal-only" ]; then
+    cominout_dir="${COMINOUTrestart}"
+    out_fdate="${filedate_next}"
+  else
+    cominout_dir="${COMINOUT}"
+    out_fdate="${filedate}"
+  fi
+  cp -p "${fn_ocn_data}${new_bkg_data_fn_suffix}" "${cominout_dir}/${out_fdate}.${fn_ocn_data}"
 
 fi
 

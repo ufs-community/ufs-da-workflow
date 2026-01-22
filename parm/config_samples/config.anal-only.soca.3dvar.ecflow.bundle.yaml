@@ -1,0 +1,16 @@
+flag:
+  CUSTOM_JEDI_CONFIG_FLAG: 'TEMPLATE'
+  JEDI_TYPE_SOCA: 'YES'
+path:
+parm:
+  ACCOUNT: epic
+  DATE_CYCLE_FREQ_HR: 24
+  DATE_FIRST_CYCLE: 2021032212
+  DATE_LAST_CYCLE: 2021032212
+  envir: anal_soca_3dvar_ecflow
+  EXP_CASE_NAME: anal_soca_3dvar_ecflow
+  JEDI_ALGORITHM: 3dvar
+  NPROCS_ANALYSIS: 96
+  NPROCS_PREP_DATA: 96
+  TYPE_ANAL_FCST: anal-only
+  WORKFLOW_MANAGER: ecflow
