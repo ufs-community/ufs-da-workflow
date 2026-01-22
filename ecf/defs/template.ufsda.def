@@ -44,7 +44,13 @@ suite {{ exp_case_name }}
         task jufsda_analysis
         task jufsda_plot_stats
             trigger jufsda_analysis == complete
-  {%- elif TYPE_ANAL_FCST == "fcst-1st" %}
+  {%- elif TYPE_ANAL_FCST == "fcst-only" %}
+        task jufsda_prep_data
+        task jufsda_forecast
+            trigger jufsda_prep_data == complete
+        task jufsda_plot_stats
+            trigger jufsda_forecast == complete
+  {%- elif TYPE_ANAL_FCST == "anal-only" or TYPE_ANAL_FCST == "fcst-1st" %}
         task jufsda_prep_data
         task jufsda_analysis
             trigger jufsda_prep_data == complete

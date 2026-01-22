@@ -14,6 +14,8 @@ YYYYp=${pdate:0:4}
 MMp=${pdate:4:2}
 DDp=${pdate:6:2}
 HHp=${pdate:8:2}
+PDYmc1=${pdate:0:8}
+COMINrestart_mc1="${COMROOT}/${NET}/${model_ver}/${RUN}.${PDYmc1}/RESTART"
 
 filedate=${PDY}.${cyc}0000
 
@@ -48,7 +50,7 @@ if [ "${JEDI_TYPE_FV3}" = "YES" ] && [ "${TYPE_ANAL_FCST}" != "ctest" ]; then
   if [ "${COLDSTART}" = "NO" ] && [ "${PDY}${cyc}" = "${DATE_FIRST_CYCLE:0:10}" ]; then
     data_dir="${WARMSTART_DIR}"
   else
-    data_dir="${DATA_RESTART}"
+    data_dir="${COMINrestart_mc1}"
   fi
 
 
@@ -127,7 +129,7 @@ if [ "${JEDI_TYPE_SOCA}" = "YES" ] && [ "${TYPE_ANAL_FCST}" != "ctest" ]; then
   if [ "${COLDSTART}" = "NO" ] && [ "${PDY}${cyc}" = "${DATE_FIRST_CYCLE:0:10}" ]; then
     data_dir="${WARMSTART_DIR}"
   else
-    data_dir="${DATA_RESTART}"
+    data_dir="${COMINrestart_mc1}"
   fi
   r_fp="${data_dir}/${filedate}.MOM.res.nc"
   if [ -e "${r_fp}" ]; then
@@ -252,8 +254,8 @@ if [ -n "${list_jedi_land}" ] && [ "${TYPE_ANAL_FCST}" != "ctest" ]; then
   for itile in {1..6}
   do
     sfc_fn="${filedate}.sfc_data.tile${itile}.nc"
-    if [ -f ${DATA_RESTART}/${sfc_fn} ]; then
-      cp -p ${DATA_RESTART}/${sfc_fn} .
+    if [ -f ${COMINrestart_mc1}/${sfc_fn} ]; then
+      cp -p ${COMINrestart_mc1}/${sfc_fn} .
     elif [ -f ${WARMSTART_DIR}/${sfc_fn} ]; then
       cp -p ${WARMSTART_DIR}/${sfc_fn} .
     else
@@ -501,10 +503,15 @@ EOF
     done  
   done
   
-  ## Copy the final sfc_data files to COMINOUT
+  ## Copy the final sfc_data files to COMINOUT / COMINOUTrestart
+  if [ "${TYPE_ANAL_FCST}" = "anal-only" ]; then
+    cominout_dir="${COMINOUTrestart}"
+  else
+    cominout_dir="${COMINOUT}"
+  fi
   for itile in {1..6}
   do
-    cp -p "${DATA}/${filedate}.sfc_data.tile${itile}.nc" ${COMINOUT}
+    cp -p "${DATA}/${filedate}.sfc_data.tile${itile}.nc" ${cominout_dir}
   done
   
   if [ -d diags ]; then

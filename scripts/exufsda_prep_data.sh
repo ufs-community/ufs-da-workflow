@@ -25,6 +25,8 @@ YYYYp=${pdate:0:4}
 MMp=${pdate:4:2}
 DDp=${pdate:6:2}
 HHp=${pdate:8:2}
+PDYmc1=${pdate:0:8}
+COMINrestart_mc1="${COMROOT}/${NET}/${model_ver}/${RUN}.${PDYmc1}/RESTART"
 
 # For JEDI time window
 cycle_freq_hr_half=$(( DATE_CYCLE_FREQ_HR / 2 ))
@@ -618,7 +620,7 @@ if [[ "${JEDI_TYPE_SOCA}" == "YES" && "${do_soca_prep}" = "YES" &&
   if [ "${COLDSTART}" = "NO" ] && [ "${PDY}${cyc}" = "${DATE_FIRST_CYCLE:0:10}" ]; then
     data_dir="${WARMSTART_DIR}"
   else
-    data_dir="${DATA_RESTART}"
+    data_dir="${COMINrestart_mc1}"
   fi
   r_fp="${data_dir}/${PDY}.${cyc}0000.MOM.res.nc"
   if [ -e "${r_fp}" ]; then
@@ -929,9 +931,9 @@ EOF
       # Copy sfc_data files into work directory
       for itile in {1..6}
       do
-        sfc_m0="${YYYY}${MM}${DD}.${HH}0000.sfc_data.tile${itile}.nc"
-        if [ -f ${DATA_RESTART}/${sfc_m0} ]; then
-          ln -nsf ${DATA_RESTART}/${sfc_m0} ${DATA}
+        sfc_m0="${PDY}.${cyc}0000.sfc_data.tile${itile}.nc"
+        if [ -f ${COMINrestart_mc1}/${sfc_m0} ]; then
+          ln -nsf ${COMINrestart_mc1}/${sfc_m0} ${DATA}
         elif [ -f ${WARMSTART_DIR}/${sfc_m0} ]; then
           ln -nsf ${WARMSTART_DIR}/${sfc_m0} ${DATA}
         else
