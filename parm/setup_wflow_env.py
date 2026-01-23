@@ -509,16 +509,16 @@ def check_valid_parm(home_dir,config_parm):
     jedi_type_snow = config_parm["flag"]["JEDI_TYPE_SNOW"]
     jedi_type_soca = config_parm["flag"]["JEDI_TYPE_SOCA"]
     jedi_type_soil_moisture = config_parm["flag"]["JEDI_TYPE_SOIL_MOISTURE"]
-    obs_ghcn_snow = config_parm["flag"]["OBS_GHCN_SNOW"]
-    obs_ims_snow = config_parm["flag"]["OBS_IMS_SNOW"]
-    obs_sfcsno = config_parm["flag"]["OBS_SFCSNO"]
-    obs_smap = config_parm["flag"]["OBS_SMAP"]
-    obs_smops = config_parm["flag"]["OBS_SMOPS"]
-    if obs_ghcn_snow == "YES" and obs_ims_snow == "YES":
-        logging.error("FATAL ERROR: Both OBS_GHCN_SNOW and OBS_IMS_SNOW are selected, but this is not supported by JCB!!!", exc_info=True)
+    obs_snow_ghcn = config_parm["flag"]["OBS_SNOW_GHCN"]
+    obs_snow_ims = config_parm["flag"]["OBS_SNOW_IMS"]
+    obs_snow_sfcsno = config_parm["flag"]["OBS_SNOW_SFCSNO"]
+    obs_swc_smap = config_parm["flag"]["OBS_SWC_SMAP"]
+    obs_swc_smops = config_parm["flag"]["OBS_SWC_SMOPS"]
+    if obs_snow_ghcn == "YES" and obs_snow_ims == "YES":
+        logging.error("FATAL ERROR: Both OBS_SNOW_GHCN and OBS_SNOW_IMS are selected, but this is not supported by JCB!!!", exc_info=True)
         sys.exit(1)
-    elif obs_smap == "YES" and obs_smops == "YES":
-        logging.error("FATAL ERROR: Both OBS_SMAP and OBS_SMOPS are selected, but this is not supported!!!", exc_info=True)
+    elif obs_swc_smap == "YES" and obs_swc_smops == "YES":
+        logging.error("FATAL ERROR: Both OBS_SWC_SMAP and OBS_SWC_SMOPS are selected, but this is not supported!!!", exc_info=True)
         sys.exit(1)
 
     if type_anal_fcst == "both" or type_anal_fcst == "anal-only":
@@ -527,19 +527,19 @@ def check_valid_parm(home_dir,config_parm):
             sys.exit(1)
 
         if jedi_type_snow == "YES" and \
-           (obs_ghcn_snow == "NO" and obs_ims_snow == "NO" and obs_sfcsno == "NO"):
+           (obs_snow_ghcn == "NO" and obs_snow_ims == "NO" and obs_snow_sfcsno == "NO"):
             logging.error(f'''FATAL ERROR: JEDI_TYPE_SNOW = "YES", but all snow observation options are off !!!''')
             sys.exit(1)
         elif jedi_type_snow == "NO" and \
-           (obs_ghcn_snow == "YES" or obs_ims_snow == "YES" or obs_sfcsno == "YES"):
-            logging.error(f'''FATAL ERROR: JEDI_TYPE_SNOW = "NO", but snow observations are on: GHCN ({obs_ghcn_snow}), IMS (${obs_ims_snow}), SFCSNO (${obs_sfcsno}) !!!''')
+           (obs_snow_ghcn == "YES" or obs_snow_ims == "YES" or obs_snow_sfcsno == "YES"):
+            logging.error(f'''FATAL ERROR: JEDI_TYPE_SNOW = "NO", but snow observations are on: GHCN ({obs_snow_ghcn}), IMS (${obs_snow_ims}), SFCSNO (${obs_snow_sfcsno}) !!!''')
             sys.exit(1)
     
-        if jedi_type_soil_moisture == "YES" and (obs_smap == "NO" and obs_smops == "NO"):
+        if jedi_type_soil_moisture == "YES" and (obs_swc_smap == "NO" and obs_swc_smops == "NO"):
             logging.error(f'''FATAL ERROR: JEDI_TYPE_SOIL_MOISTURE = "YES", but all soil moisture observation options are off !!!''')
             sys.exit(1)
-        elif jedi_type_soil_moisture == "NO" and (obs_smap == "YES" or obs_smops == "YES"):
-            logging.error(f'''FATAL ERROR: JEDI_TYPE_SOIL_MOISTURE = "NO", but soil moisture observations are on: SMAP ({obs_smap}) and SMOPS ({obs_smops})!!!''')
+        elif jedi_type_soil_moisture == "NO" and (obs_swc_smap == "YES" or obs_swc_smops == "YES"):
+            logging.error(f'''FATAL ERROR: JEDI_TYPE_SOIL_MOISTURE = "NO", but soil moisture observations are on: SMAP ({obs_swc_smap}) and SMOPS ({obs_swc_smops})!!!''')
             sys.exit(1)
   
     # Print out final configuration to experimental case dir

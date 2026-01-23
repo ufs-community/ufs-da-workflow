@@ -35,10 +35,10 @@ def main():
     TYPE_ANAL_FCST = yaml_data['TYPE_ANAL_FCST']
     JEDI_TYPE_FV3 = yaml_data['JEDI_TYPE_FV3']
     JEDI_TYPE_SOCA = yaml_data['JEDI_TYPE_SOCA']
-    OBS_GHCN_SNOW = yaml_data['OBS_GHCN_SNOW']
-    OBS_IMS_SNOW = yaml_data['OBS_IMS_SNOW']
-    OBS_SMAP = yaml_data['OBS_SMAP']
-    OBS_SMOPS = yaml_data['OBS_SMOPS']
+    OBS_SNOW_GHCN = yaml_data['OBS_SNOW_GHCN']
+    OBS_SNOW_IMS = yaml_data['OBS_SNOW_IMS']
+    OBS_SWC_SMAP = yaml_data['OBS_SWC_SMAP']
+    OBS_SWC_SMOPS = yaml_data['OBS_SWC_SMOPS']
     obs_prefix = yaml_data['obs_prefix']
     PDY = yaml_data['PDY']
     PY_LOG_LEVEL = yaml_data['PY_LOG_LEVEL']
@@ -60,16 +60,16 @@ def main():
     cartopy.config['data_dir']=cartopy_ne_path
 
     # Plot GHCN
-    if OBS_GHCN_SNOW == "YES":
+    if OBS_SNOW_GHCN == "YES":
         obs_plot("ghcn",PDY,work_dir,obs_prefix,"ghcn_snow")
     # Plot IMS
-    if OBS_IMS_SNOW == "YES":
+    if OBS_SNOW_IMS == "YES":
         obs_plot("ims",PDY,work_dir,obs_prefix,"ims_snow.tm00")
     # Plot SMAP
-    if OBS_SMAP == "YES":
+    if OBS_SWC_SMAP == "YES":
         obs_plot("smap",PDY,work_dir,obs_prefix,"smap_combined")
     # Plot SMOPS
-    if OBS_SMOPS == "YES":
+    if OBS_SWC_SMOPS == "YES":
         obs_plot("smops",PDY,work_dir,obs_prefix,"smops")
     # Plot SOCA
     if JEDI_TYPE_SOCA == "YES":

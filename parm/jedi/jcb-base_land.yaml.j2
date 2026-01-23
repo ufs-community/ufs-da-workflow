@@ -79,20 +79,20 @@ land_bump_data_directory: "{{ land_bump_data_dir }}"
 # Observation
 observations:
 {%- if jedi_type == "snow" %}
-{%- if OBS_GHCN_SNOW == "YES" %}
+{%- if OBS_SNOW_GHCN == "YES" %}
 - ghcn_snow
 {%- endif %}
-{%- if OBS_IMS_SNOW == "YES" %}
+{%- if OBS_SNOW_IMS == "YES" %}
 - ims_snow
 {%- endif %}
-{%- if OBS_SFCSNO == "YES" %}
+{%- if OBS_SNOW_SFCSNO == "YES" %}
 - sfcsno
 {%- endif %}
 #- snocvr_snow
 {%- elif jedi_type == "soil_moisture" %}
-{%- if OBS_SMAP == "YES" %}
+{%- if OBS_SWC_SMAP == "YES" %}
 - smap_soil_moisture
-{%- elif OBS_SMOPS == "YES" %}
+{%- elif OBS_SWC_SMOPS == "YES" %}
 - smops_soil_moisture
 {%- endif %}
 {%- endif %}

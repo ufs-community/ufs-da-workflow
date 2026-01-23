@@ -552,11 +552,11 @@ if [[ ( "${TYPE_ANAL_FCST}" == "both" || "${TYPE_ANAL_FCST}" == "anal-only" ||
   'land_orog_files_path': "${FIXufsda}/DATA_fix/FV3/Tiled/C${RES}"
   'land_orog_prefix': "C${RES}.${OCN_MESH_RES}"
   'snowdepth_vn': ${snowdepth_vn}
-  'OBS_GHCN_SNOW': '${OBS_GHCN_SNOW}'
-  'OBS_IMS_SNOW': '${OBS_IMS_SNOW}'
-  'OBS_SFCSNO': '${OBS_SFCSNO}'
-  'OBS_SMAP': '${OBS_SMAP}'
-  'OBS_SMOPS': '${OBS_SMOPS}'
+  'OBS_SNOW_GHCN': '${OBS_SNOW_GHCN}'
+  'OBS_SNOW_IMS': '${OBS_SNOW_IMS}'
+  'OBS_SNOW_SFCSNO': '${OBS_SNOW_SFCSNO}'
+  'OBS_SWC_SMAP': '${OBS_SWC_SMAP}'
+  'OBS_SWC_SMOPS': '${OBS_SWC_SMOPS}'
 " # End of settings variable
     
       template_fp="${PARMufsda}/jedi/jcb-base_land.yaml.j2"
@@ -835,7 +835,7 @@ if [ "${JEDI_TYPE_SNOW}" = "YES" ]; then
   obs_out_fn_ghcn=""
   obs_out_fn_ims=""
   ## GHCN snow depth data
-  if [ "${OBS_GHCN_SNOW}" = "YES" ]; then
+  if [ "${OBS_SNOW_GHCN}" = "YES" ]; then
     obs_fn="ghcn_snwd_ioda_${PDY}${cyc}.nc"
     obs_dp="${DCOMINobs}/ghcn/${YYYY}"
     obs_fp="${obs_dp}/${obs_fn}"
@@ -868,7 +868,7 @@ if [ "${JEDI_TYPE_SNOW}" = "YES" ]; then
   fi
 
   ## IMS snow data
-  if [ "${OBS_IMS_SNOW}" = "YES" ]; then  
+  if [ "${OBS_SNOW_IMS}" = "YES" ]; then  
     # Check if pre-generated IMS obs file exists
     obs_fn="obs.${PDY}.${cycle}.ims_snow.tm00.nc"
     obs_dp="${DCOMINobs}/IMS/${PDY}"
@@ -964,7 +964,7 @@ EOF
   fi
 
   ## SFCSNO data
-  if [ "${OBS_SFCSNO}" = "YES" ]; then
+  if [ "${OBS_SNOW_SFCSNO}" = "YES" ]; then
     sfcsno_fn_suffix="sfcsno.tm00.bufr_d"
     cp -p "${COMINgdas}/${PDY}/gdas.${cycle}.${sfcsno_fn_suffix}" "${COMINOUTobs}/obs.${PDY}.${cycle}.${sfcsno_fn_suffix}"
   fi
@@ -976,7 +976,7 @@ fi
 if [ "${JEDI_TYPE_SOIL_MOISTURE}" = "YES" ]; then
   # SMAP data
   obs_out_fn_smap=""
-  if [ "${OBS_SMAP}" = "YES" ]; then
+  if [ "${OBS_SWC_SMAP}" = "YES" ]; then
     obs_fn="obs.${PDY}.${cycle}.smap_combined.nc"
     obs_dp="${DCOMINobs}/SMAP/${YYYY}${MM}"
     obs_fp="${obs_dp}/${obs_fn}"
@@ -1070,7 +1070,7 @@ EOF
   fi
 
   # SMOPS data
-  if [ "${OBS_SMOPS}" = "YES" ]; then
+  if [ "${OBS_SWC_SMOPS}" = "YES" ]; then
     obs_fn="obs.${PDY}.${cycle}.smops.nc"
     obs_dp="${DCOMINobs}/SMOPS/${YYYY}${MM}"
     obs_fp="${obs_dp}/${obs_fn}"

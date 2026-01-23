@@ -281,20 +281,20 @@ if [ -n "${list_jedi_land}" ] && [ "${TYPE_ANAL_FCST}" != "ctest" ]; then
   # Copy obserbation files to work directory
   mkdir -p ${DATA}/obs
   obs_prefix="obs.${PDY}.${cycle}"
-  if [ "${OBS_GHCN_SNOW}" = "YES" ]; then
+  if [ "${OBS_SNOW_GHCN}" = "YES" ]; then
     ln -nsf "${COMINOUTobs}/${obs_prefix}.ghcn_snow.nc" "${DATA}/obs"
   fi
-  if [ "${OBS_IMS_SNOW}" = "YES" ]; then
+  if [ "${OBS_SNOW_IMS}" = "YES" ]; then
     ln -nsf "${COMINOUTobs}/${obs_prefix}.ims_snow.tm00.nc" "${DATA}/obs"
   fi
-  if [ "${OBS_SFCSNO}" = "YES" ]; then
+  if [ "${OBS_SNOW_SFCSNO}" = "YES" ]; then
     ln -nsf "${COMINOUTobs}/${obs_prefix}.sfcsno.tm00.bufr_d" "${DATA}/obs"
     ln -nsf "${PARMufsda}/jedi/bufr_sfcsno_mapping.yaml" "${DATA}/obs"
   fi
-  if [ "${OBS_SMAP}" = "YES" ]; then
+  if [ "${OBS_SWC_SMAP}" = "YES" ]; then
     ln -nsf "${COMINOUTobs}/${obs_prefix}.smap_combined.nc" "${DATA}/obs"
   fi
-  if [ "${OBS_SMOPS}" = "YES" ]; then
+  if [ "${OBS_SWC_SMOPS}" = "YES" ]; then
     ln -nsf "${COMINOUTobs}/${obs_prefix}.smops.nc" "${DATA}/obs"
   fi
   

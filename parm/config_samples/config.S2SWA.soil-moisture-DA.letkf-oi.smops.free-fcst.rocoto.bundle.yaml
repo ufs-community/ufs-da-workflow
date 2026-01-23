@@ -4,7 +4,7 @@ flag:
   JEDI_TYPE_SNOW: 'NO'
   JEDI_TYPE_SOCA: 'NO'
   JEDI_TYPE_SOIL_MOISTURE: 'YES'
-  OBS_SMOPS: 'YES'
+  OBS_SWC_SMOPS: 'YES'
 path:
 parm:
   ACCOUNT: epic

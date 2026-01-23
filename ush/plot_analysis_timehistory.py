@@ -39,11 +39,11 @@ def main():
     JEDI_ALGORITHM = yaml_data['JEDI_ALGORITHM']
     JEDI_TYPE_SOCA = yaml_data['JEDI_TYPE_SOCA']
     out_fn_base = yaml_data['out_fn_base']
-    OBS_GHCN_SNOW = yaml_data['OBS_GHCN_SNOW']
-    OBS_IMS_SNOW = yaml_data['OBS_IMS_SNOW']
-    OBS_SFCSNO = yaml_data['OBS_SFCSNO']
-    OBS_SMAP = yaml_data['OBS_SMAP']
-    OBS_SMOPS = yaml_data['OBS_SMOPS']
+    OBS_SNOW_GHCN = yaml_data['OBS_SNOW_GHCN']
+    OBS_SNOW_IMS = yaml_data['OBS_SNOW_IMS']
+    OBS_SNOW_SFCSNO = yaml_data['OBS_SNOW_SFCSNO']
+    OBS_SWC_SMAP = yaml_data['OBS_SWC_SMAP']
+    OBS_SWC_SMOPS = yaml_data['OBS_SWC_SMOPS']
     path_data = yaml_data['path_data']
     PY_LOG_LEVEL=yaml_data['PY_LOG_LEVEL']
     work_dir = yaml_data['work_dir']
@@ -69,15 +69,15 @@ def main():
                 svar_list += ["CoolSkin","SeaIceFraction"]
         else:
             svar_list += ["ADT","InsituSalinity","InsituTemperature","SeaSurfaceSalinity","SeaSurfaceTemp"]
-    if OBS_GHCN_SNOW == "YES":
+    if OBS_SNOW_GHCN == "YES":
         svar_list.append("ghcn_snow")
-    if OBS_IMS_SNOW == "YES":
+    if OBS_SNOW_IMS == "YES":
         svar_list.append("ims_snow")
-    if OBS_SFCSNO == "YES":
+    if OBS_SNOW_SFCSNO == "YES":
         svar_list.append("sfcsno")
-    if OBS_SMAP == "YES":
+    if OBS_SWC_SMAP == "YES":
         svar_list.append("smap_soil_moisture")
-    if OBS_SMOPS == "YES":
+    if OBS_SWC_SMOPS == "YES":
         svar_list.append("smops_soil_moisture")
 
     logging.info(f''' svar_list: {svar_list}''')
