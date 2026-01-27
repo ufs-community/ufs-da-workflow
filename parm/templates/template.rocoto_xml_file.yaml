@@ -213,16 +213,7 @@ workflow:
               attrs:
                 task: analysis
   {%- else %}
-    {%- if APP == "S2SWA" or APP == "S2SWAL" or APP == "ATM" %}
-            datadep_sfc1:
-              attrs:
-                age: 5
-              value: "&DATADEP_SFC1;"
-            datadep_sfc2:
-              attrs:
-                age: 5
-              value: "&DATADEP_SFC2;"
-    {%- elif APP == "NG-GODAS" %}
+    {%- if APP == "NG-GODAS" %}
             datadep_mom1:
               attrs:
                 age: 5
@@ -231,6 +222,15 @@ workflow:
               attrs:
                 age: 5
               value: "&DATADEP_MOM2;"
+    {%- else %}
+            datadep_sfc1:
+              attrs:
+                age: 5
+              value: "&DATADEP_SFC1;"
+            datadep_sfc2:
+              attrs:
+                age: 5
+              value: "&DATADEP_SFC2;"
     {%- endif %}
   {%- endif %}
 {%- endif %}
