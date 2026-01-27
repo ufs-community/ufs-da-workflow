@@ -714,6 +714,7 @@ if [ "${lnd_model}" = "noahmp" ]; then
     cp -p "${DATA}/ufs.cpld.lnd.ini.${YYYY}-${MM}-${DD}-${HHsec_5d}.tile${itile}.nc" "${COMINOUT}/${NET}.${cycle}.lnd.f000.c${RES}.tile${itile}.nc"
   done
   ## ufs.cpld.lnd.out
+  icnt="0"
   list_out_fh_lnd=$(seq ${OUTPUT_FH_LND} ${OUTPUT_FH_LND} ${FCST_HRS})
   for ihr in ${list_out_fh_lnd}
   do

@@ -70,11 +70,11 @@ else
     do_plot_fcst_restart_cice="YES"
   fi
 fi
-# Turn off fv3 and restart plots for DATM
+# Turn off component and restart plots for specific APPs
 if [ "${APP}" = "NG-GODAS" ]; then
   do_plot_fcst_out_fv3="NO"
   do_plot_fcst_restart_fv3="NO"
-elif [ "${APP}" = "ATM" ]; then
+elif [ "${APP}" = "ATML" ] || [ "${APP}" = "ATM" ]; then
   do_plot_fcst_out_mom6="NO"
   do_plot_fcst_out_cice="NO"
   do_plot_fcst_restart_mom6="NO"
