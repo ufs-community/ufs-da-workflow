@@ -9,7 +9,7 @@ fhrot:                   {{ FHROT }}
 
 dt_atmos:                {{ DT_ATMOS }}
 restart_fh:               
-{%- if APP == "S2SWA" or APP == "S2SWAL" or APP == "ATM" %}
+{%- if APP != "NG-GODAS" %}
 restart_interval:        {{ RESTART_INTERVAL }}
 
 use_saved_routehandles:  {{ use_saved_routehandles }}
