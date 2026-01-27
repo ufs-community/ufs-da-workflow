@@ -123,6 +123,14 @@ elif [ "${APP}" = "NG-GODAS" ]; then
   wav_mesh_wav="mesh.global_270k.nc"
   ### model_configure
   use_saved_routehandles="N/A"
+elif [ "${APP}" = "ATML" ]; then
+  ### ufs.configure
+  allcomp_case_name="ufs.cpld"
+  cmeps_coupling_mode="ufs.frac"
+  cmeps_mapuv_with_cart3d="true"
+  wav_mesh_wav="N/A"
+  ### model_configure
+  use_saved_routehandles=".false."
 elif [ "${APP}" = "ATM" ]; then
   ### ufs.configure
   allcomp_case_name="N/A"
@@ -208,6 +216,13 @@ nprocs_atm_ocn_ice_wav_m1=$(( nprocs_atm_ocn_ice_wav - 1 ))
 nprocs_forecast_m1=$(( nprocs_forecast - 1 ))
 datm_mesh_fn="mesh.datm.${datm_nx_global}x${datm_ny_global}.nc"
 output_fh_lnd_sec=$(( OUTPUT_FH_LND * 3600 ))
+if [ "${APP}" = "ATML" ]; then
+  lnd_petlist_bounds_n1=${nprocs_forecast_atm}
+  lnd_petlist_bounds_n2=${nprocs_forecast_m1}
+else
+  lnd_petlist_bounds_n1=${nprocs_atm_ocn_ice_wav}
+  lnd_petlist_bounds_n2=${nprocs_forecast_m1}
+fi
 
 settings="\
   'APP': ${APP}
@@ -235,8 +250,8 @@ settings="\
   'lnd_layout_x': ${ATM_LAYOUT_X}
   'lnd_layout_y': ${ATM_LAYOUT_Y}
   'lnd_model': ${lnd_model}
-  'lnd_petlist_bounds_n1': ${nprocs_atm_ocn_ice_wav}
-  'lnd_petlist_bounds_n2': ${nprocs_forecast_m1}
+  'lnd_petlist_bounds_n1': ${lnd_petlist_bounds_n1}
+  'lnd_petlist_bounds_n2': ${lnd_petlist_bounds_n2}
   'med_petlist_bounds_n1': 0
   'med_petlist_bounds_n2': ${nprocs_med_m1}
   'ocn_mesh_ocn': mesh.${OCN_MESH_RES}.nc

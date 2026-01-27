@@ -542,7 +542,7 @@ fi
 # fd_ufs.yaml
 cp -p "${PARMufsda}/templates/template.fd_ufs.yaml" fd_ufs.yaml
 # data_table
-if [ "${APP}" != "ATM" ]; then
+if [ "${APP}" != "ATM" ] && [ "${APP}" != "ATML" ]; then
   cp -p "${PARMufsda}/templates/template.data_table" data_table
 fi
 

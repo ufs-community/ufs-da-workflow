@@ -13,6 +13,8 @@ EARTH_component_list: MED ATM OCN ICE WAV
 EARTH_component_list: MED ATM CHM OCN ICE WAV LND
 {%- elif APP == "NG-GODAS" %}
 EARTH_component_list: MED ATM OCN ICE
+{%- elif APP == "ATML" %}
+EARTH_component_list: MED ATM LND
 {%- elif APP == "ATM" %}
 EARTH_component_list: ATM
 {%- endif %}
@@ -256,6 +258,19 @@ runSeq::
    OCN -> MED :remapMethod=redist
    MED med_phases_post_ocn
    MED med_phases_restart_write
+  {%- elif APP == "ATML" %}
+   MED med_phases_prep_atm
+   MED med_phases_prep_lnd
+   MED -> ATM :remapMethod=redist
+   MED -> LND :remapMethod=redist
+   ATM
+   LND
+   ATM -> MED :remapMethod=redist
+   MED med_phases_post_atm
+   LND -> MED :remapMethod=redist
+   MED med_phases_post_lnd
+   MED med_phases_restart_write
+   MED med_phases_history_write
   {%- endif %}
 @
 ::
@@ -280,8 +295,12 @@ MED_attributes::
       LND_model = {{ lnd_model }}
   {%- endif %}
       coupling_mode = {{ cmeps_coupling_mode }}
+  {%- if APP == "ATML" %}
+      samegrid_atmlnd = .true.
+  {%- else %}
       ocean_albedo_limit = 0.06
       mapuv_with_cart3d = {{ cmeps_mapuv_with_cart3d | lower }}
+  {%- endif %}
       pio_typename = pnetcdf
       pio_numiotasks = -99
       pio_stride = 4
@@ -290,13 +309,20 @@ MED_attributes::
 ::
 
 ALLCOMP_attributes::
+  {%- if APP == "ATML" %}
+      ScalarFieldCount = 4
+  {%- else %}
       ScalarFieldCount = 3
+  {%- endif %}
       ScalarFieldIdxGridNX = 1
       ScalarFieldIdxGridNY = 2
   {%- if APP == "S2SWA" or APP == "S2SWAL" %}
       ScalarFieldIdxGridNTile = 3
   {%- elif APP == "NG-GODAS" %}
       ScalarFieldIdxNextSwCday = 3
+  {%- elif APP == "ATML" %}
+      ScalarFieldIdxGridNTile = 3
+      ScalarFieldIdxNextSwCday = 4
   {%- endif %}
       ScalarFieldName = cpl_scalars
       start_type = {{ allcomp_start_type }}

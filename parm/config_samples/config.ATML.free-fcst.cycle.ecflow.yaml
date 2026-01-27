@@ -1,0 +1,19 @@
+flag:
+  COLDSTART: 'YES'
+  IC_FROM_FIX_DIR: 'YES'  
+path:
+parm:
+  ACCOUNT: epic
+  APP: ATML
+  CCPP_SUITE: FV3_GFS_v17_p8_ugwpv1
+  DATE_CYCLE_FREQ_HR: 12
+  DATE_FIRST_CYCLE: 2021032206
+  DATE_LAST_CYCLE: 2021032218
+  DT_ATMOS: 720
+  DT_RUNSEQ: 720
+  envir: atml_freefcst_ecf
+  EXP_CASE_NAME: atml_freefcst_ecf
+  FCST_HRS: 12
+  OUTPUT_FH: '6 -1'
+  TYPE_ANAL_FCST: fcst-only
+  WORKFLOW_MANAGER: ecflow

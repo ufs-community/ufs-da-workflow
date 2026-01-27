@@ -212,6 +212,10 @@ def add_new_parm_hpc(machine,config_parm):
         nprocs_forecast_atm = nprocs_datm
         nprocs_forecast_med = nprocs_forecast_atm
         nprocs_forecast = nprocs_forecast_atm + nprocs_ocn + nprocs_ice
+    elif app == "ATML":
+        nprocs_forecast_med = 6*(atm_layout_x*atm_layout_y)
+        nprocs_forecast_atm = nprocs_forecast_med + 6*(atm_io_layout_x*atm_io_layout_y)
+        nprocs_forecast = nprocs_forecast_atm + nprocs_forecast_med
     elif app == "ATM":
         nprocs_forecast_atm = 6*(atm_layout_x*atm_layout_y + atm_io_layout_x*atm_io_layout_y)
         nprocs_forecast_med = nprocs_forecast_atm
@@ -371,6 +375,13 @@ def add_new_parm_ufs_model(config_parm):
         ice_model = "cice6"
         lnd_model = ""
         ocn_model = "mom6"
+        wav_model = ""
+    elif app == "ATML":
+        atm_model = "fv3"
+        chm_model = ""
+        ice_model = ""
+        lnd_model = "noahmp"
+        ocn_model = ""
         wav_model = ""
     elif app == "ATM":
         atm_model = "fv3"
