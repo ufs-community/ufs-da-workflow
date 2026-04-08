@@ -302,8 +302,7 @@ if [ "${BUILD_JEDI}" != "off" ]; then
       git checkout a260d3e
       git submodule update --init --recursive
       # Run build script
-      # ./build.sh -f -a -d -t ${PLATFORM} > build.log 2>&1 &
-      ./build.sh -f -a -d -t ${PLATFORM}
+      ./build.sh -f -a -d -t ${PLATFORM} > build.log 2>&1 &
     fi
     cd "${SORC_DIR}"
   fi
