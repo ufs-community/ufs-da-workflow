@@ -1,5 +1,5 @@
 # ufs-da-workflow
-UFS DA (Data Assimilation) Workflow
+UFS DA (Data Assimilation) Workflow: UFS Weather Model + JCSDA JEDI
 - Available coupling configurations in UFS Weather Model:
  1. S2SWA: ATM (FV3+CCPP) + OCN (MOM6) + ICE (CICE) + WAV (WW3) + CHM (GOCART)
  2. S2SWAL: ATM (FV3+CCPP) + OCN (MOM6) + ICE (CICE) + WAV (WW3) + CHM (GOCART) + LND (Noah-MP)
