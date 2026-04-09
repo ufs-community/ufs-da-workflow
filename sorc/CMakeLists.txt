@@ -51,10 +51,14 @@ list(APPEND UFS_MODEL_ARGS
   "-DCCPP_SUITES=${CCPP_SUITES}"
   "-DMPI=ON"
 )
-if( NOT APP STREQUAL "S2SWAL" )
+if( APP MATCHES "S2SWA" )
   list(APPEND UFS_MODEL_ARGS
     "-D32BIT=ON"
     "-DPDLIB=ON"
+  )
+elseif( APP MATCHES "ATML" OR APP MATCHES "ATM" )
+  list(APPEND UFS_MODEL_ARGS
+    "-D32BIT=ON"
   )
 endif()
 if( NOT DA_UTILS_ONLY )
@@ -115,7 +119,7 @@ else()
   "-DWEIGHT_GEN=OFF"
   )
 endif()
-if( NOT DA_UTILS_ONLY )
+if( NOT DA_UTILS_ONLY AND NOT APP STREQUAL "LND" )
   if( APP MATCHES "ATML" )
     list(APPEND TARGET LIST UFS_UTILS_nofrac.fd)
     ExternalProject_Add(UFS_UTILS_nofrac.fd

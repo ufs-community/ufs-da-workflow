@@ -17,8 +17,8 @@ OPTIONS
       compiler to use; default depends on platform
       (e.g. intel | gnu | cray | gccgfortran)
   -a, --app=APPLICATION
-      weather model application to build; for example, S2SWA for GFS
-      (e.g. S2SWA | S2SWAL | NG-GODAS | ATML | ATM )
+      weather model application to build; for example, S2SWA for GFS/GEFS
+      (e.g. S2SWA | S2SWAL | NG-GODAS | ATML | ATM | LND)
   --ccpp="CCPP_SUITE1,CCPP_SUITE2..."
       CCPP suites (CCPP_SUITES) to include in build; delimited with ','
   --remove
