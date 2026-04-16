@@ -607,7 +607,9 @@ EOF
         cp -p "${fn_data_base}${itile}${new_bkg_data_fn_suffix}" ${sfc_fn}
         cp -p ${sfc_fn} "${fn_data_base}${itile}.nc_${jedi_type}_after_inc"
       done
-  
+      ## Turn off increment plot
+      DO_PLOT_COMP_JEDI_INCR="NO"
+
     fi
   
     # Copy the increment files to COMINOUT
