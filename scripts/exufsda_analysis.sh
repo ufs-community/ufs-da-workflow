@@ -28,6 +28,8 @@ filedate_next="${PDYpc1}.${nHH}0000"
 # Global parameters
 orog_path="${FIXufsda}/DATA_fix/FV3/Tiled/C${RES}"
 orog_fn_base="C${RES}.${OCN_MESH_RES}_oro_data"
+atm_bkg_fn=""
+atm_incr_fn_prefix=""
 fn_ice_data=""
 fn_ice_incr=""
 fn_ocn_data=""

@@ -26,7 +26,7 @@ def get_obs_stats(fname, svar_long, ichm1):
     else:
         obs=f.groups['ObsValue'].variables[svar_long][:]
         omb=f.groups['ombg'].variables[svar_long][:]
-        if svar_long == "soilMoistureVolumetric":
+        if svar_long == "soilMoistureVolumetric" or svar_long == "totalSnowDepth":
             oma=None
         else:
             oma=f.groups['oman'].variables[svar_long][:]
