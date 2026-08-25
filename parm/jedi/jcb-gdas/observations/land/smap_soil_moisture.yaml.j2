@@ -1,0 +1,55 @@
+-
+
+  obs space:
+    name: SoilMoistureSMAP
+    distribution:
+      name: Halo
+      halo size: 250e3
+    simulated variables:
+    - soilMoistureVolumetric
+    obsdatain:
+      engine:
+        type: H5File
+        obsfile: "{{land_obsdatain_path}}/{{land_obsdatain_prefix}}smap_combined.nc"
+    obsdataout:
+      engine:
+        type: H5File
+        obsfile: "{{land_obsdataout_path}}/{{land_obsdataout_prefix}}smap_soil_moisture{{land_obsdataout_suffix}}"
+  obs operator:
+    name: Identity
+  obs error:
+    covariance model: diagonal
+  obs localizations:
+  - localization method: Horizontal SOAR
+    lengthscale: 250e3
+    soar horizontal decay: 0.000021
+  obs filters:
+  - filter: Domain Check
+    where:
+    - variable:
+        name: PreQC/soilMoistureVolumetric
+      is_in: 0, 8
+  - filter: Domain Check
+    where:
+    - variable:
+        name: GeoVaLs/sheleg
+      maxvalue: 0.0
+  - filter: Domain Check
+    where:
+    - variable:
+        name: GeoVaLs/slmsk
+      minvalue: 0.5
+      maxvalue: 1.5
+  - filter: BlackList
+    where:
+    - variable:
+        name: GeoVaLs/vtype
+      absolute_tolerance: 1.0e-3
+      is_close_to_any_of:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 13
+      - 15
+      - 17

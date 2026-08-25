@@ -16,11 +16,6 @@
 	url = https://github.com/NOAA-EPIC/jcb-algorithms.git
 	branch = sync_gdas
 	ignore = dirty
-[submodule "sorc/jcb-gdas"]
-	path = sorc/jcb-gdas
-	url = https://github.com/NOAA-EPIC/jcb-gdas.git
-	branch = sync_gdas
-	ignore = dirty
 [submodule "sorc/apply_incr.fd"]
 	path = sorc/apply_incr.fd
 	url = https://github.com/NOAA-PSL/land-apply_jedi_incr.git
@@ -34,3 +29,7 @@
 	path = sorc/UFS_UTILS_nofrac.fd
 	url = https://github.com/ufs-community/UFS_UTILS.git
         ignore = dirty
+[submodule "sorc/GDASApp.cd"]
+	path = sorc/GDASApp.cd
+	url = https://github.com/NOAA-EMC/GDASApp.git
+	ignore = dirty

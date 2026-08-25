@@ -9,5 +9,8 @@
 #PBS -l place=vscatter
 
 export BUILD_JOBS="8"
-cd {{ JEDI_BUILD_DIR }}
-./build.sh -f -t derecho
+export WORKFLOW_BUILD="ON"
+export WORKFLOW_TESTS="OFF"
+
+cd {{ HOME_DIR }}/sorc/GDASApp.cd
+./build.sh -f -t derecho -w {{ HOME_DIR }}

@@ -253,14 +253,11 @@ if [ "${REMOVE}" = true ]; then
   exit 0  
 fi
 
-# === Build JEDI-bundle, if requested (default: off) ===
+# === Build JEDI/GDASApp, if requested (default: off) ===
 if [ "${BUILD_JEDI}" != "off" ]; then
   if [ -z "${JEDI_BUILD_DIR}" ]; then
     if [ "${BUILD_JEDI}" = "bundle" ] || [ "${BUILD_JEDI}" = "bundle-only" ]; then
       JEDI_BUILD_DIR="${HOME_DIR}/../jedi"
-    elif [ "${BUILD_JEDI}" = "gdas" ] || [ "${BUILD_JEDI}" = "gdas-only" ]; then
-      JEDI_PDIR=$(dirname "${HOME_DIR}")
-      JEDI_BUILD_DIR="${JEDI_PDIR}/GDASApp"
     fi
   fi
   jedi_build_skip="NO"
@@ -284,7 +281,6 @@ if [ "${BUILD_JEDI}" != "off" ]; then
     if [ "${BUILD_JEDI}" = "bundle" ] || [ "${BUILD_JEDI}" = "bundle-only" ]; then
       module use ${SORC_DIR}/jedi-bundle/modulefiles
       module load ${PLATFORM}.${COMPILER}
-      module load git-lfs
       module list
       mkdir -p ${JEDI_BUILD_DIR}
       cd "${JEDI_BUILD_DIR}"
@@ -294,20 +290,16 @@ if [ "${BUILD_JEDI}" != "off" ]; then
       ecbuild "${JEDI_BUILD_DIR}/jedi-bundle" 2>&1 | tee log.jedibundle_ecbuild
       make ${MAKE_SETTINGS} 2>&1 | tee log.jedibundle_make
     elif [ "${BUILD_JEDI}" = "gdas" ] || [ "${BUILD_JEDI}" = "gdas-only" ]; then
-      module load git-lfs
-      cd "${JEDI_PDIR}"
-      git clone https://github.com/NOAA-EMC/GDASApp.git
-      cd GDASApp
-      # For specific hash
-      git checkout 16c416d
-      git submodule update --init --recursive
+      cd "${SORC_DIR}/GDASApp.cd"
       # Run build script
       if [ "${PLATFORM}" = "derecho" ]; then
-	cp -p "${SORC_DIR}/gdas_jcard_derecho.sh" "${JEDI_BUILD_DIR}"
-	sed -i "s|{{ JEDI_BUILD_DIR }}|$JEDI_BUILD_DIR|g" "${JEDI_BUILD_DIR}/gdas_jcard_derecho.sh"
-        qsub ${SORC_DIR}/gdas_jcard_derecho.sh
+	cp -p "${SORC_DIR}/gdas_jcard_derecho.sh" "${SORC_DIR}/GDASApp.cd"
+	sed -i "s|{{ HOME_DIR }}|$HOME_DIR|g" "${SORC_DIR}/GDASApp.cd/gdas_jcard_derecho.sh"
+        qsub ${SORC_DIR}/GDASApp.cd/gdas_jcard_derecho.sh
       else
-        ./build.sh -f -t ${PLATFORM} > build.log 2>&1 &
+	export WORKFLOW_BUILD="ON"
+	export WORKFLOW_TESTS="OFF"
+        ./build.sh -f -t ${PLATFORM} -w "${HOME_DIR}" > build.log 2>&1 &
       fi
     fi
     cd "${SORC_DIR}"
