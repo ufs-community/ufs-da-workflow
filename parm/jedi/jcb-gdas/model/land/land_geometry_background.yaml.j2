@@ -1,0 +1,11 @@
+fms initialization:
+  namelist filename: "{{ land_fv3jedi_files_path }}/fmsmpp.nml"
+  field table filename: "{{ land_fv3jedi_files_path }}/field_table"
+akbk: "{{ land_fv3jedi_files_path }}/akbk.nc4"
+layout:
+- {{ land_layout_x }}
+- {{ land_layout_y }}
+npx: {{ land_npx_ges }}
+npy: {{ land_npy_ges }}
+npz: {{ land_npz_ges }}
+field metadata override: "{{ land_fv3jedi_files_path }}/fv3jedi_fieldmetadata_restart.yaml"

@@ -1,0 +1,24 @@
+output:
+  state component:
+    datapath: ./anl
+    prefix: snowinc
+    filetype: fms restart
+    filename_sfcd: '{{ land_background_time_fv3 }}.sfc_data.nc'
+    filename_cplr: '{{ land_background_time_fv3 }}.coupler.res'
+    state variables:
+    - totalSnowDepth
+    - vtype
+    - slmsk
+    field io names:
+      totalSnowDepth: {{ snowdepth_vn }}
+geometry:
+  fms initialization:
+    namelist filename: "{{ land_fv3jedi_files_path }}/fmsmpp.nml"
+    field table filename: "{{ land_fv3jedi_files_path }}/field_table"
+  akbk: "{{ land_fv3jedi_files_path }}/akbk.nc4"
+  layout:
+  - {{ land_layout_x }}
+  - {{ land_layout_y }}
+  npx: {{ land_npx_ges }}
+  npy: {{ land_npy_ges }}
+  npz: {{ land_npz_ges }}
